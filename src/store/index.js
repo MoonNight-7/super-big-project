@@ -11,9 +11,14 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
-    reverseIsIndex(state){
-      state.isIndex = !state.isIndex
-    }
+    falseIsIndex(state){
+      state.isIndex = false
+      console.log('store中的false函数执行了，当前isIndex值为'+state.isIndex)
+    },
+    trueIsIndex(state){
+      state.isIndex = true
+      console.log('store中的false函数执行了，当前isIndex值为'+state.isIndex)
+    },
   },
   actions: {
   },

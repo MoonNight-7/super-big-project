@@ -41,19 +41,25 @@
 <script>
 import router from "@/router";
 import { load } from "@/assets/js/lodePage";
-import store from '@/store';
+import store from "@/store";
 export default {
   data() {
     return {
       activeMenuItemPath: this.$router.currentRoute.path,
       avatarUrl: "",
-      isIndex:store.state.isIndex
+      isIndex: store.state.isIndex,
+      // path: router.path
     };
   },
   methods: {
     routerTest() {
-      console.log(router.currentRoute.query);
+      // console.log(router.currentRoute.query);
+      if (router.currentRoute.path) {
+        console.log('路由中的地址：'+router.currentRoute.path);
+      }
       this.$message.success(123);
+      store.commit("falseIsIndex");
+      this.isIndex = store.state.isIndex;
     },
     showAvatar() {
       this.$message.info("点击了【头像】");
@@ -69,13 +75,41 @@ export default {
       this.avatarUrl = user.url;
       this.$notify({
         title: "登录成功",
-        message: "欢迎您！"+user.nickname,
+        message: "欢迎您！" + user.nickname,
         type: "success",
-        position:"bottom-left"
+        position: "bottom-left",
       });
     },
+    changeIsIndex(){
+      console.log(123);
+      if(router.currentRoute.path == '/'){
+        store.commit('trueIsIndex')
+      }else{
+        store.commit('falseIsIndex')
+      }
+    }
+  },
+  watch: {
+    /**
+     * 监听路由变化，判断是否是首页
+     */
+    $route(to,from){
+      if (to.path == '/') {
+        store.commit('trueIsIndex')
+        this.isIndex = store.state.isIndex
+      }else{
+        console.log(123);
+        store.commit('falseIsIndex')
+        this.isIndex = store.state.isIndex
+      }
+      // console.log(from.path);//从哪来
+      console.log(to.path);//到哪去
+    }
   },
   mounted() {
+    /**
+     * 页面刷新时将路由地址保存并反馈给menu组件
+     */
     let path = this.$router.currentRoute.path;
     let query = router.currentRoute.query;
     if (query.isFree) {
