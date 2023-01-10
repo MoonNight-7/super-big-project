@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isFree:''
+    isFree:'',
+    isIndex:true,
   },
   getters: {
   },
   mutations: {
+    reverseIsIndex(state){
+      state.isIndex = !state.isIndex
+    }
   },
   actions: {
   },

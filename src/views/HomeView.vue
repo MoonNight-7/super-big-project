@@ -32,6 +32,7 @@
         <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
       </el-menu>
+      <div v-if="isIndex">123</div>
       <router-view />
     </el-main>
   </el-container>
@@ -40,11 +41,13 @@
 <script>
 import router from "@/router";
 import { load } from "@/assets/js/lodePage";
+import store from '@/store';
 export default {
   data() {
     return {
       activeMenuItemPath: this.$router.currentRoute.path,
       avatarUrl: "",
+      isIndex:store.state.isIndex
     };
   },
   methods: {
