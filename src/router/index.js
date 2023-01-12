@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
   if (jwt) {
     next()
   } else {
-    if (to.path === '/login') {
+    if (to.path === '/login'||to.path === '/reg') {
       next()
     } else {
       next('/login')
