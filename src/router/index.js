@@ -26,7 +26,7 @@ const routes = [
       {
         path: '/postCat',
         component: () => import('@/views/product/PostView.vue'),
-        meta:{title:'发布猫猫'}
+        meta: { title: '发布猫猫' }
       }
     ]
   },
@@ -57,4 +57,16 @@ router.afterEach(to => {
   document.title = to.meta.title
 })
 
+router.beforeEach((to, from, next) => {
+  let jwt = localStorage.getItem('jwt')
+  if (jwt) {
+    next()
+  } else {
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  }
+})
 export default router

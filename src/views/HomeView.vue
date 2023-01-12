@@ -32,7 +32,9 @@
         <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
       </el-menu>
-      <div v-if="isIndex">123</div>
+      <div v-if="isIndex">
+        <el-empty></el-empty>
+      </div>
       <router-view />
     </el-main>
   </el-container>
@@ -55,7 +57,7 @@ export default {
     routerTest() {
       // console.log(router.currentRoute.query);
       if (router.currentRoute.path) {
-        console.log('路由中的地址：'+router.currentRoute.path);
+        console.log("路由中的地址：" + router.currentRoute.path);
       }
       this.$message.success(123);
       store.commit("falseIsIndex");
@@ -80,35 +82,27 @@ export default {
         position: "bottom-left",
       });
     },
-    changeIsIndex(){
-      console.log(123);
-      if(router.currentRoute.path == '/'){
-        store.commit('trueIsIndex')
-      }else{
-        store.commit('falseIsIndex')
-      }
-    }
   },
   watch: {
     /**
      * 监听路由变化，判断是否是首页
      */
-    $route(to,from){
-      if (to.path == '/') {
-        store.commit('trueIsIndex')
-        this.isIndex = store.state.isIndex
-      }else{
-        console.log(123);
-        store.commit('falseIsIndex')
-        this.isIndex = store.state.isIndex
+    $route(to, from) {
+      if (to.path == "/") {
+        store.commit("trueIsIndex");
+        this.isIndex = store.state.isIndex;
+      } else {
+        console.log('当前页面不是首页');
+        store.commit("falseIsIndex");
+        this.isIndex = store.state.isIndex;
       }
       // console.log(from.path);//从哪来
-      console.log(to.path);//到哪去
-    }
+      // console.log(to.path); //到哪去
+    },
   },
   mounted() {
     /**
-     * 页面刷新时将路由地址保存并反馈给menu组件
+     * 页面刷新时将路由地址保存并反馈给el-menu组件
      */
     let path = this.$router.currentRoute.path;
     let query = router.currentRoute.query;
@@ -118,11 +112,12 @@ export default {
     this.activeMenuItemPath = path;
     // console.log(path);
     this.initUserDetail();
-    console.log("mounted函数");
+    console.log("mounted函数执行了！！");
   },
   created() {
     load();
   },
+
 };
 </script>
 
