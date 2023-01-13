@@ -23,18 +23,13 @@
         class="el-menu-demo"
         mode="horizontal"
       >
-        <el-submenu index="1">
-          <template slot="title">租 猫</template>
-          <el-menu-item index="/rentCat?isFree=1">免费</el-menu-item>
-          <el-menu-item index="/rentCat?isFree=0">收费</el-menu-item>
-        </el-submenu>
+      <el-menu-item index="/rentCat">租 猫</el-menu-item>
         <el-menu-item index="/buyCat">买 猫</el-menu-item>
         <el-menu-item index="/postCat">我要发布</el-menu-item>
         <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
         <el-button @click="dialogFormVisible = true">弹出对话框表单</el-button>
       </el-menu>
-      <div v-if="isIndex"><el-empty></el-empty>123123</div>
       <!-- 弹出对话框表单【开始】 -->
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
         <el-form :model="userDetail">
@@ -66,13 +61,11 @@
 
 <script>
 import router from "@/router";
-import { load } from "@/assets/js/lodePage";
 import store from "@/store";
 export default {
   data() {
     return {
       activeMenuItemPath: this.$router.currentRoute.path,
-      isIndex: store.state.isIndex,
       // path: router.path
       dialogFormVisible: false,
       userDetail: {},
@@ -113,18 +106,18 @@ export default {
     /**
      * 监听路由变化，判断是否是首页
      */
-    $route(to, from) {
-      if (to.path == "/") {
-        store.commit("trueIsIndex");
-        this.isIndex = store.state.isIndex;
-      } else {
-        console.log("当前页面不是首页");
-        store.commit("falseIsIndex");
-        this.isIndex = store.state.isIndex;
-      }
-      // console.log(from.path);//从哪来
-      // console.log(to.path); //到哪去
-    },
+    // $route(to, from) {
+    //   if (to.path == "/") {
+    //     store.commit("trueIsIndex");
+    //     this.isIndex = store.state.isIndex;
+    //   } else {
+    //     console.log("当前页面不是首页");
+    //     store.commit("falseIsIndex");
+    //     this.isIndex = store.state.isIndex;
+    //   }
+    //   // console.log(from.path);//从哪来
+    //   // console.log(to.path); //到哪去
+    // },
   },
   mounted() {
     /**

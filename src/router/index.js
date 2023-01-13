@@ -8,6 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    redirect:'/rentCat',
     component: HomeView,
     meta: { title: 'iMiao在线猫猫平台' },
     children: [
