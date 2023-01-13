@@ -98,6 +98,10 @@ export default {
               let data = responseBody.data
               for (const item in data) {
                 if (Object.hasOwnProperty.call(data, item)) {
+                  if (item == 'jwt') {
+                    localStorage.setItem(item,data[item])
+                    continue
+                  }
                   const element = JSON.stringify(data[item]);
                   localStorage.setItem(item,element)
                 }

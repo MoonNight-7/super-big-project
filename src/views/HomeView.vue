@@ -7,9 +7,10 @@
         <el-avatar
           id="avatar"
           :size="50"
-          :src="$host + avatarUrl"
+          :src="$host + userDetail.url"
           @click.native="showAvatar"
         />
+
         <el-button id="logout" type="info" plain size="mini" @click="logout"
           >退出登录</el-button
         >
@@ -31,10 +32,33 @@
         <el-menu-item index="/postCat">我要发布</el-menu-item>
         <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
+        <el-button @click="dialogFormVisible = true">弹出对话框表单</el-button>
       </el-menu>
-      <div v-if="isIndex">
-        <el-empty></el-empty>
-      </div>
+      <div v-if="isIndex"><el-empty></el-empty>123123</div>
+      <!-- 弹出对话框表单【开始】 -->
+      <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
+        <el-form :model="userDetail">
+          <el-form-item label="活动区域" :label-width="formLabelWidth">
+            <el-select v-model="userDetail.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="昵称" :label-width="formLabelWidth">
+            <el-input
+              v-model="userDetail.nickname"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false"
+            >确 定</el-button
+          >
+        </div>
+      </el-dialog>
+      <!-- 弹出对话框表单【结束】 -->
       <router-view />
     </el-main>
   </el-container>
@@ -48,9 +72,11 @@ export default {
   data() {
     return {
       activeMenuItemPath: this.$router.currentRoute.path,
-      avatarUrl: "",
       isIndex: store.state.isIndex,
       // path: router.path
+      dialogFormVisible: false,
+      userDetail: {},
+      formLabelWidth: "120px",
     };
   },
   methods: {
@@ -73,11 +99,11 @@ export default {
     initUserDetail() {
       let userString = localStorage.getItem("userDetailVO");
       let user = JSON.parse(userString);
-      console.log(user);
-      this.avatarUrl = user.url;
+      this.userDetail = user;
+      console.log(this.userDetail);
       this.$notify({
         title: "登录成功",
-        message: "欢迎您！" + user.nickname,
+        message: "欢迎您！" + this.userDetail.nickname,
         type: "success",
         position: "bottom-left",
       });
@@ -92,7 +118,7 @@ export default {
         store.commit("trueIsIndex");
         this.isIndex = store.state.isIndex;
       } else {
-        console.log('当前页面不是首页');
+        console.log("当前页面不是首页");
         store.commit("falseIsIndex");
         this.isIndex = store.state.isIndex;
       }
@@ -114,10 +140,7 @@ export default {
     this.initUserDetail();
     console.log("mounted函数执行了！！");
   },
-  created() {
-    load();
-  },
-
+  created() {},
 };
 </script>
 
