@@ -15,10 +15,22 @@ const api = {
      * @returns 
      */
     register(userinfo){
-        return post('/api/users/add-new',user)
+        return post('/api/users/add-new',userinfo)
     },
+    /**
+     * 获取头像列表
+     * @returns 头像列表
+     */
     avatarsList(){
         return get('/api/avatars/list')
+    },
+    /**
+     * 修改用户信息
+     * @param {object} userinfo 
+     * @returns 
+     */
+    userUpdate(userinfo){
+        return post('/api/users/update',userinfo)
     }
 
 }

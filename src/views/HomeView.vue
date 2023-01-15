@@ -8,7 +8,7 @@
           id="avatar"
           :size="50"
           :src="$host + userDetail.url"
-          @click.native="showAvatar"
+          @click.native="dialogFormVisible = true"
         />
 
         <el-button id="logout" type="info" plain size="mini" @click="logout"
@@ -23,9 +23,10 @@
         class="el-menu-demo"
         mode="horizontal"
       >
-      <el-menu-item index="/rentCat">租 猫</el-menu-item>
+        <el-menu-item index="/rentCat">租 猫</el-menu-item>
         <el-menu-item index="/buyCat">买 猫</el-menu-item>
         <el-menu-item index="/postCat">我要发布</el-menu-item>
+        <el-menu-item index="/myCat">我发布的猫</el-menu-item>
         <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
         <el-button @click="dialogFormVisible = true">弹出对话框表单</el-button>
@@ -33,11 +34,31 @@
       <!-- 弹出对话框表单【开始】 -->
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
         <el-form :model="userDetail">
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="userDetail.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="头像" :label-width="formLabelWidth">
+            <el-select id="select" v-model="userDetail.avatarId">
+              <el-option
+                id="option"
+                v-for="item in avatarArr"
+                :key="item.id"
+                :value="item.id"
+                :label="item.name"
+              >
+                <el-image
+                  style="width: 30px; height: 30px"
+                  fit="cover"
+                  :src="$host + item.url"
+                />
+                <span style="float: right; color: #8492a6; font-size: 13px">{{
+                  item.name
+                }}</span>
+              </el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="用户名" :label-width="formLabelWidth">
+            <el-input
+              v-model="userDetail.username"
+              autocomplete="off"
+            ></el-input>
           </el-form-item>
           <el-form-item label="昵称" :label-width="formLabelWidth">
             <el-input
@@ -45,10 +66,14 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
+          <el-form-item label="性别" :label-width="formLabelWidth">
+            <el-radio v-model="userDetail.gender" label="1">男</el-radio>
+            <el-radio v-model="userDetail.gender" label="2">女</el-radio>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false"
+          <el-button type="primary" @click="updateUserDetail()"
             >确 定</el-button
           >
         </div>
@@ -69,6 +94,7 @@ export default {
       // path: router.path
       dialogFormVisible: false,
       userDetail: {},
+      avatarArr: [],
       formLabelWidth: "120px",
     };
   },
@@ -82,8 +108,17 @@ export default {
       store.commit("falseIsIndex");
       this.isIndex = store.state.isIndex;
     },
-    showAvatar() {
-      this.$message.info("点击了【头像】");
+    updateUserDetail() {
+      console.log(this.userDetail);
+      this.$api.userUpdate(this.userDetail).then((res) => {
+        console.log(res);
+        if (res.state!=200) {
+          this.$message.error(res.message)
+          return
+        }
+        this.$message.success("修改成功")
+        this.dialogFormVisible = false
+      });
     },
     logout() {
       localStorage.clear();
@@ -99,6 +134,12 @@ export default {
         message: "欢迎您！" + this.userDetail.nickname,
         type: "success",
         position: "bottom-left",
+      });
+    },
+    getAvatars() {
+      this.$api.avatarsList().then((res) => {
+        this.avatarArr = res.data;
+        console.log(res);
       });
     },
   },
@@ -131,6 +172,7 @@ export default {
     this.activeMenuItemPath = path;
     // console.log(path);
     this.initUserDetail();
+    this.getAvatars();
     console.log("mounted函数执行了！！");
   },
   created() {},

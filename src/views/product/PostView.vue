@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     apiTest1() {
-      this.$api.avatarsList().then((res) => {
+      this.$api.login(this.user).then((res) => {
         console.log(res);
       });
     },

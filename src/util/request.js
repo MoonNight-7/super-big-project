@@ -42,6 +42,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 // 请求拦截和响应拦截
 instance.interceptors.request.use(
     config => {
+        console.log('123');
         if (config.method === 'post') {
             config.data = qs.stringify(config.data);
         }
