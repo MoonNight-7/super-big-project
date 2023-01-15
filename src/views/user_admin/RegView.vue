@@ -77,7 +77,7 @@ export default {
       regUserInfo: {
         username: "superadmin",
         password: "123456",
-        nickname: "xiaoming",
+        nickname: "小黑子",
         gender: "1",
         avatarId: "",
       },
@@ -106,9 +106,9 @@ export default {
         nickname: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
-            min: 5,
-            max: 16,
-            message: "长度在 5 到 16 个字符",
+            min: 2,
+            max: 6,
+            message: "长度在 2 到 6 个字符",
             trigger: "blur",
           },
         ],

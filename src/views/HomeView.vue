@@ -29,7 +29,6 @@
         <el-menu-item index="/myCat">我发布的猫</el-menu-item>
         <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
-        <el-button @click="dialogFormVisible = true">弹出对话框表单</el-button>
       </el-menu>
       <!-- 弹出对话框表单【开始】 -->
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
@@ -104,9 +103,7 @@ export default {
       if (router.currentRoute.path) {
         console.log("路由中的地址：" + router.currentRoute.path);
       }
-      this.$message.success(123);
-      store.commit("falseIsIndex");
-      this.isIndex = store.state.isIndex;
+      this.$message.success('执行了routerTest函数');
     },
     updateUserDetail() {
       console.log(this.userDetail);
@@ -117,7 +114,7 @@ export default {
           return
         }
         this.$message.success("修改成功")
-        this.dialogFormVisible = false
+        // this.dialogFormVisible = false
       });
     },
     logout() {
@@ -128,6 +125,7 @@ export default {
       let userString = localStorage.getItem("userDetailVO");
       let user = JSON.parse(userString);
       this.userDetail = user;
+      this.userDetail.gender = user.gender.toString()
       console.log(this.userDetail);
       this.$notify({
         title: "登录成功",
@@ -165,10 +163,10 @@ export default {
      * 页面刷新时将路由地址保存并反馈给el-menu组件
      */
     let path = this.$router.currentRoute.path;
-    let query = router.currentRoute.query;
-    if (query.isFree) {
-      path += "?isFree=" + query.isFree;
-    }
+    // let query = router.currentRoute.query;
+    // if (query.isFree) {
+    //   path += "?isFree=" + query.isFree;
+    // }
     this.activeMenuItemPath = path;
     // console.log(path);
     this.initUserDetail();

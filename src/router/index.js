@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { Message } from 'element-ui';
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect:'/rentCat',
+    redirect: '/rentCat',
     component: HomeView,
     meta: { title: 'iMiao在线猫猫平台' },
     children: [
@@ -28,6 +29,11 @@ const routes = [
         path: '/postCat',
         component: () => import('@/views/product/PostView.vue'),
         meta: { title: '发布猫猫' }
+      },
+      {
+        path:'/myCat',
+        component: () => import('@/views/product/MyCatView.vue'),
+        meta:{title:'我的发布'}
       }
     ]
   },
@@ -63,9 +69,10 @@ router.beforeEach((to, from, next) => {
   if (jwt) {
     next()
   } else {
-    if (to.path === '/login'||to.path === '/reg') {
+    if (to.path === '/login' || to.path === '/reg') {
       next()
     } else {
+      Message.info('请先登录')
       next('/login')
     }
   }
