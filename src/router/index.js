@@ -27,7 +27,7 @@ const routes = [
       },
       {
         path: '/postCat',
-        component: () => import('@/views/product/PostView.vue'),
+        component: () => import('@/views/product/PostViewStep1.vue'),
         meta: { title: '发布猫猫' }
       },
       {

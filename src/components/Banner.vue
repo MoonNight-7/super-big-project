@@ -1,7 +1,7 @@
 <template>
   <div class="block">
     <span>{{ msg }}</span>
-    <el-carousel :interval="4000" type="card" height="200px" id="banner_box">
+    <el-carousel :interval="4000" type="card" height="230px" id="banner_box">
       <el-carousel-item v-for="(item,index) in BannerArr" :key="index">
         <el-image :src=item fit="cover"/>
       </el-carousel-item>
@@ -45,7 +45,7 @@ export default {
   background-color: #d3dce6;
 }
 #banner_box {
-  width: 900px;
+  width: 1000px;
   margin: 0 auto;
 }
 </style>
