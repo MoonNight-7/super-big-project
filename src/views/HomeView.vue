@@ -34,7 +34,11 @@
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
         <el-form :model="userDetail">
           <el-form-item label="头像" :label-width="formLabelWidth">
-            <el-select id="select" v-model="userDetail.avatarId">
+            <el-select
+              id="select"
+              v-model="userDetail.avatarId"
+              @change="nextAvatar(userDetail.avatarId)"
+            >
               <el-option
                 id="option"
                 v-for="item in avatarArr"
@@ -95,6 +99,7 @@ export default {
       userDetail: {},
       avatarArr: [],
       formLabelWidth: "120px",
+      avatarUpdate: {},
     };
   },
   methods: {
@@ -103,17 +108,21 @@ export default {
       if (router.currentRoute.path) {
         console.log("路由中的地址：" + router.currentRoute.path);
       }
-      this.$message.success('执行了routerTest函数');
+      this.$message.success("执行了routerTest函数");
     },
     updateUserDetail() {
       console.log(this.userDetail);
       this.$api.userUpdate(this.userDetail).then((res) => {
         console.log(res);
-        if (res.state!=200) {
-          this.$message.error(res.message)
-          return
+        if (res.state != 200) {
+          this.$message.error(res.message);
+          return;
         }
-        this.$message.success("修改成功")
+        this.$message.success("修改成功");
+        this.userDetail.url = this.avatarUpdate.url
+        let userString = JSON.stringify(this.userDetail);
+        localStorage.setItem("userDetailVO", userString);
+        router.go(0);
         // this.dialogFormVisible = false
       });
     },
@@ -125,7 +134,7 @@ export default {
       let userString = localStorage.getItem("userDetailVO");
       let user = JSON.parse(userString);
       this.userDetail = user;
-      this.userDetail.gender = user.gender.toString()
+      this.userDetail.gender = user.gender.toString();
       console.log(this.userDetail);
       this.$notify({
         title: "登录成功",
@@ -139,6 +148,9 @@ export default {
         this.avatarArr = res.data;
         console.log(res);
       });
+    },
+    nextAvatar(id) {
+      this.avatarUpdate = this.avatarArr[id-1]
     },
   },
   watch: {
