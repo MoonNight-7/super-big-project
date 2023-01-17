@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner msg="买猫"/>
+    <Banner/>
   </div>
 </template>
 

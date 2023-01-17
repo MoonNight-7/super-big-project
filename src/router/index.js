@@ -51,6 +51,27 @@ const routes = [
     name: 'reg',
     component: () => import('../views/user_admin/RegView.vue'),
     meta: { title: 'iMiao注册' },
+  },
+  {
+    path:'/admin',
+    name:'admin',
+    redirect:'/adminHome',
+    component: ()=> import('@/views/admin/AdminView.vue'),
+    meta:{title:'猫猫管理员'},
+    children:[
+      {
+        path:'/adminHome',
+        name:'adminHome',
+        component: ()=> import("@/views/admin/AdminHomeView.vue"),
+        meta:{title:'管理员首页'}
+      },
+      {
+        path:'/addSpecies',
+        name:'addSpecies',
+        component: ()=>import('@/views/admin/AddSpeciesView.vue'),
+        meta:{title:'新增品种'}
+      }
+    ]
   }
 ]
 
