@@ -103,6 +103,7 @@ export default {
     };
   },
   methods: {
+     // ctrl-17  k-75
     routerTest() {
       // console.log(router.currentRoute.query);
       if (router.currentRoute.path) {
@@ -119,7 +120,7 @@ export default {
           return;
         }
         this.$message.success("修改成功");
-        this.userDetail.url = this.avatarUpdate.url
+        this.userDetail.url = this.avatarUpdate.url;
         let userString = JSON.stringify(this.userDetail);
         localStorage.setItem("userDetailVO", userString);
         router.go(0);
@@ -150,7 +151,7 @@ export default {
       });
     },
     nextAvatar(id) {
-      this.avatarUpdate = this.avatarArr[id-1]
+      this.avatarUpdate = this.avatarArr[id - 1];
     },
   },
   watch: {

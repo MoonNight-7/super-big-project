@@ -9,7 +9,6 @@
         :rules="rules"
         ref="userinfo"
         hide-required-asterisk
-        @keyup.enter.native="login('userinfo')"
       >
         <el-form-item label="用户名" prop="username" id="detail">
           <el-input v-model="userinfo.username" style="width: 160px"></el-input>
@@ -73,7 +72,7 @@ export default {
     login(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = "http://localhost:18080/users/login";
+          let url = "http://192.168.3.21:18080/users/login";
           let formData = qs.stringify(this.userinfo);
           console.log("formData = " + formData);
           axios.post(url, formData).then((res) => {

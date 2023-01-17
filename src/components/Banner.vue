@@ -52,7 +52,7 @@ export default {
           .catch(() => {
             this.$message({
               type: "info",
-              message: "取消输入",
+              message: "您放弃了进入管理员界面的机会，密码是8493258",
             });
           });
       }
