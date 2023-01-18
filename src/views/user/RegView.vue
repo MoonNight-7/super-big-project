@@ -116,7 +116,7 @@ export default {
       avatarArr: [
         {
           id: "",
-          url: "x",
+          url: "",
           name: "",
         },
       ],

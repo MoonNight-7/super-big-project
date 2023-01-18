@@ -19,7 +19,7 @@
           <el-menu-item-group>
             <template slot="title">品种管理</template>
             <el-menu-item index="/addSpecies">新增品种</el-menu-item>
-            <el-menu-item index="1-2">品种列表</el-menu-item>
+            <el-menu-item index="/listSpecies">品种列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu></el-aside
@@ -42,7 +42,6 @@ export default {
   mounted() {
     let path = router.currentRoute.path;
     this.activeMenuPath = path;
-    console.log(path);
   },
 };
 </script>

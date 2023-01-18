@@ -70,6 +70,12 @@ const routes = [
         name:'addSpecies',
         component: ()=>import('@/views/admin/AddSpeciesView.vue'),
         meta:{title:'新增品种'}
+      },
+      {
+        path:'/listSpecies',
+        name:'listSpecies',
+        component: ()=> import('@/views/admin/SpeciesListView.vue'),
+        meta:{title:'品种列表'}
       }
     ]
   }

@@ -1,32 +1,80 @@
 <template>
   <div>
-    <el-form :model="catForm" label-width="100px">
-      <el-form-item label="猫咪种类">
+    <el-form :model="catForm" label-width="100px" ref="catForm">
+      <el-form-item label="猫咪种类" prop="catSpecies">
         <el-input style="width: 120px" v-model="catForm.catSpecies"></el-input>
       </el-form-item>
-      <el-form-item label="猫咪描述">
+      <el-form-item label="猫咪描述" prop="description">
         <el-input
           type="textarea"
           style="width: 220px"
-          v-model="description"
+          v-model="catForm.description"
         ></el-input>
       </el-form-item>
-      <el-form-item label="猫猫图片">
-        <el-upload :action="$host + '/upload'" :headers="heads" name="pic" list-type="picture-card">
-          <el-button type=""></el-button>
+      <el-form-item label="猫猫图片" prop="pictures">
+        <el-upload
+          :action="this.$host + '/upload'"
+          :headers="heads"
+          name="pic"
+          :limit="1"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+          :on-success="handleSuccess"
+        >
+          <i class="el-icon-plus"></i>
         </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img :src="dialogImageUrl" width="100%" alt="" />
+        </el-dialog>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('catForm')"
+          >提交</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import router from "@/router";
 export default {
   data() {
     return {
-      catForm: {},
-      heads: { Authorization: 123 },
+      catForm: {
+        pictures: "",
+      },
+      heads: { Authorization: "" },
+      dialogImageUrl: "",
+      dialogVisible: false,
     };
+  },
+  methods: {
+    handleSuccess(res) {
+      this.catForm.pictures = res.data;
+    },
+    handleRemove(file, fileList) {
+      this.$api.deleteImg(this.catForm.pictures).then((res) => {
+        console.log(res);
+        console.log("服务器删除完成");
+      });
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    submitForm(formName) {
+      this.$api.speciesAddNew(this.catForm).then((res) => {
+        if (res.state == 200) {
+          this.$message.success("发布成功");
+          router.go(0);
+        }else{
+          this.$message.error(res.message)
+        }
+      });
+    },
   },
   mounted() {
     this.heads.Authorization = localStorage.getItem("jwt");
