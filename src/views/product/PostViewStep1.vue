@@ -50,11 +50,18 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      catPostForm:{
+        isRent:''
+      }
+    };
   },
   methods: {
-    rentCat(i) {
-      
+    rentCat(chooseIsRent) {
+      this.catPostForm.isRent = chooseIsRent;
+      let stringForm = JSON.stringify(this.catPostForm);
+      localStorage.setItem("catPostForm",stringForm)
+      console.log(chooseIsRent);
     },
   },
 };

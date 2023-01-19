@@ -31,6 +31,11 @@ const routes = [
         meta: { title: '发布猫猫' }
       },
       {
+        path: '/postCat2',
+        component: () => import('@/views/product/PostViewStep2.vue'),
+        meta: { title: '发布猫猫' }
+      },
+      {
         path:'/myCat',
         component: () => import('@/views/product/MyCatView.vue'),
         meta:{title:'我的发布'}

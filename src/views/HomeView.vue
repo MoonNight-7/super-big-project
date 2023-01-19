@@ -82,7 +82,9 @@
         </div>
       </el-dialog>
       <!-- 弹出对话框表单【结束】 -->
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </el-main>
   </el-container>
 </template>
@@ -103,7 +105,7 @@ export default {
     };
   },
   methods: {
-     // ctrl-17  k-75
+    // ctrl-17  k-75
     routerTest() {
       // console.log(router.currentRoute.query);
       if (router.currentRoute.path) {

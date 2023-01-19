@@ -6,7 +6,7 @@
         style="margin: 10px 0"
         :key="index"
       >
-        <el-card body-style="height:250px" id="cat_description_box">
+        <el-card body-style="height:250px" id="cat_description_box" shadow="hover">
           <el-image
             fit="cover"
             :src="item.pictures"
