@@ -27,11 +27,13 @@ const routes = [
       },
       {
         path: '/postCat',
+        name:'postCat1',
         component: () => import('@/views/product/PostViewStep1.vue'),
         meta: { title: '发布猫猫' }
       },
       {
         path: '/postCat2',
+        name:'postCat2',
         component: () => import('@/views/product/PostViewStep2.vue'),
         meta: { title: '发布猫猫' }
       },

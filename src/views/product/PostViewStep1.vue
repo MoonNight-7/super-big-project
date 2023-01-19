@@ -48,7 +48,9 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
+  name:'postCat1',
   data() {
     return {
       catPostForm:{
@@ -60,7 +62,8 @@ export default {
     rentCat(chooseIsRent) {
       this.catPostForm.isRent = chooseIsRent;
       let stringForm = JSON.stringify(this.catPostForm);
-      localStorage.setItem("catPostForm",stringForm)
+      localStorage.setItem("catPostForm",stringForm);
+      router.push("/postCat2")
       console.log(chooseIsRent);
     },
   },

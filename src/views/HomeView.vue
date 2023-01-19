@@ -82,7 +82,7 @@
         </div>
       </el-dialog>
       <!-- 弹出对话框表单【结束】 -->
-      <keep-alive>
+      <keep-alive exclude="postCat2">
         <router-view />
       </keep-alive>
     </el-main>
