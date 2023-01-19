@@ -2,13 +2,20 @@
   <div>
     <el-form :model="catForm" label-width="100px" ref="catForm">
       <el-form-item label="猫咪种类" prop="catSpecies">
-        <el-input style="width: 120px" v-model="catForm.catSpecies"></el-input>
+        <el-input style="width: 220px" v-model="catForm.catSpecies"></el-input>
       </el-form-item>
       <el-form-item label="猫咪描述" prop="description">
         <el-input
           type="textarea"
           style="width: 220px"
           v-model="catForm.description"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="排序序号" prop="description">
+        <el-input
+          style="width: 120px"
+          v-model="catForm.sort"
+          placeholder="1~900"
         ></el-input>
       </el-form-item>
       <el-form-item label="猫猫图片" prop="pictures">
@@ -57,8 +64,10 @@ export default {
     },
     handleRemove(file, fileList) {
       this.$api.deleteImg(this.catForm.pictures).then((res) => {
-        console.log(res);
-        console.log("服务器删除完成");
+        if (res.state == 200) {
+          console.log("服务器删除完成");
+          this.catForm.pictures = ''
+        }
       });
     },
     handlePictureCardPreview(file) {
@@ -66,12 +75,13 @@ export default {
       this.dialogVisible = true;
     },
     submitForm(formName) {
+      console.log(this.catForm);
       this.$api.speciesAddNew(this.catForm).then((res) => {
         if (res.state == 200) {
           this.$message.success("发布成功");
           router.go(0);
-        }else{
-          this.$message.error(res.message)
+        } else {
+          this.$message.error(res.message);
         }
       });
     },
