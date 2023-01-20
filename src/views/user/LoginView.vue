@@ -95,6 +95,7 @@ export default {
 
               // 将jwt与user分开存入localStorage
               let data = responseBody.data
+              localStorage.setItem("userId",data.userDetailVO.id)
               for (const item in data) {
                 if (Object.hasOwnProperty.call(data, item)) {
                   if (item == 'jwt') {

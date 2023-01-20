@@ -23,19 +23,19 @@ export default {
           price: 199.99,
           nickname: "哥哥",
           catSpecies: "银渐层",
-          pictures: require("@/assets/banner/banner1.webp"),
+          pictures: require("@/assets/banner/banner2.jpg"),
         },
         {
           price: 20.0,
           nickname: "包子",
           catSpecies: "斯芬克斯",
-          pictures: require("@/assets/banner/banner1.webp"),
+          pictures: require("@/assets/banner/banner3.png"),
         },
         {
           price: 999.99,
           nickname: "馒头",
           catSpecies: "橘猫",
-          pictures: require("@/assets/banner/banner1.webp"),
+          pictures: require("@/assets/banner/banner4.jpg"),
         },
         {
           price: 2000.0,

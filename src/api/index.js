@@ -33,7 +33,7 @@ const api = {
         return post('/api/users/update', userinfo)
     },
     /**
-     * 
+     * 删除服务器的图片
      * @param {String} url 图片路径
      * @returns 
      */
@@ -41,14 +41,17 @@ const api = {
         return post('/api'+url+'/remove')
     },
     /**
-     * 
+     * 新增种类
      * @param {Object} obj 猫猫种类对象
      * @returns 
      */
     speciesAddNew(obj){
         return post('/api/species/add-new',obj)
     },
-
+    /**
+     * 获取品种列表
+     * @returns 
+     */
     speciesList(){
         return get('/api/species/list')
     }

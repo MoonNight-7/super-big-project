@@ -178,11 +178,15 @@ export default {
      * 页面刷新时将路由地址保存并反馈给el-menu组件
      */
     let path = this.$router.currentRoute.path;
+    if (path.startsWith("/postCat")) {
+      this.activeMenuItemPath = "/postCat";
+    } else {
+      this.activeMenuItemPath = path;
+    }
     // let query = router.currentRoute.query;
     // if (query.isFree) {
     //   path += "?isFree=" + query.isFree;
     // }
-    this.activeMenuItemPath = path;
     // console.log(path);
     this.initUserDetail();
     this.getAvatars();

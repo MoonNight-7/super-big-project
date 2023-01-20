@@ -2,7 +2,7 @@
   <el-row :gutter="20">
       <el-col
         :span="6"
-        v-for="(item,index) in catList.slice(0,3)"
+        v-for="(item,index) in catList.slice(0,12)"
         style="margin: 10px 0"
         :key="index"
       >
@@ -10,7 +10,7 @@
           <el-image
             fit="cover"
             :src="item.pictures"
-            style="width: 250px; height: 200px"
+            style="width: 317.4px; height: 200px"
           />
           <span class="cat_price">￥{{ item.price }}</span>
           <span class="cat_name">昵称：{{ item.nickname }}</span>
@@ -45,13 +45,14 @@ export default {
     color: #cc5120;
   }
   .cat_name {
-    position: absolute;
-    right: 20px;
+    float: right;
     color: #c9cdd4;
   }
   .cat_species {
     position: absolute;
     right: 20px;
+    // position: absolute;
+    // right: 20px;
   }
 }
 </style>
