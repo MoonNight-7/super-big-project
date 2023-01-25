@@ -6,7 +6,7 @@
         style="margin: 10px 0"
         :key="index"
       >
-        <el-card body-style="height:250px" id="cat_description_box" shadow="hover">
+        <el-card body-style="height:250px" id="cat_description_box" shadow="hover" @click.native="show(item.nickname)">
           <el-image
             fit="cover"
             :src="item.pictures"
@@ -34,6 +34,11 @@ export default {
         return [];
       }
     }
+  },
+  methods:{
+    show(t){
+      console.log(t);
+    }
   }
 }
 </script>
@@ -41,6 +46,7 @@ export default {
 <style lang="less" scoped>
 #cat_description_box {
   position: relative;
+  cursor: pointer;
   .cat_price {
     color: #cc5120;
   }

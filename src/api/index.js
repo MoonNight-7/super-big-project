@@ -49,13 +49,20 @@ const api = {
         return post('/api/species/add-new',obj)
     },
     /**
-     * 获取品种列表
-     * @returns 
+     * 获取种类列表
+     * @returns 种类列表
      */
     speciesList(){
         return get('/api/species/list')
+    },
+    /**
+     * 用户发布猫猫
+     * @param {Object} obj 猫猫对象
+     * @returns 
+     */
+    catAddNew(obj){
+        return post('/api/cats/add-new',obj)
     }
-
     
 
 }

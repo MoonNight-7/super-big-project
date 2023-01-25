@@ -61,10 +61,10 @@ export default {
   methods: {
     rentCat(chooseIsRent) {
       this.catPostForm.isRent = chooseIsRent;
+      this.catPostForm.userId = localStorage.getItem("userId")
       let stringForm = JSON.stringify(this.catPostForm);
       localStorage.setItem("catPostForm",stringForm);
       router.push("/postCat2")
-      console.log(chooseIsRent);
     },
   },
 };

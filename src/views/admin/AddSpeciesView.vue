@@ -23,7 +23,7 @@
           :action="this.$host + '/upload'"
           :headers="heads"
           name="pic"
-          :limit="1"
+          :limit="3"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"
@@ -66,7 +66,7 @@ export default {
       this.$api.deleteImg(this.catForm.pictures).then((res) => {
         if (res.state == 200) {
           console.log("服务器删除完成");
-          this.catForm.pictures = ''
+          this.catForm.pictures = "";
         }
       });
     },
@@ -93,4 +93,8 @@ export default {
 </script>
 
 <style>
+.el-upload-list__item-thumbnail {
+  /* 图片在方框内显示长边 */
+  object-fit: cover;
+}
 </style>

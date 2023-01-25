@@ -27,8 +27,8 @@
         <el-menu-item index="/buyCat">买 猫</el-menu-item>
         <el-menu-item index="/postCat">我要发布</el-menu-item>
         <el-menu-item index="/myCat">我发布的猫</el-menu-item>
-        <el-button @click="routerTest">测试路由</el-button>
-        <el-button @click="initUserDetail">初始化测试</el-button>
+        <!-- <el-button @click="routerTest">测试路由</el-button>
+        <el-button @click="initUserDetail">初始化测试</el-button> -->
       </el-menu>
       <!-- 弹出对话框表单【开始】 -->
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
@@ -82,7 +82,7 @@
         </div>
       </el-dialog>
       <!-- 弹出对话框表单【结束】 -->
-      <keep-alive exclude="postCat2">
+      <keep-alive exclude="postCat1,postCat2">
         <router-view />
       </keep-alive>
     </el-main>

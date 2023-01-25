@@ -104,6 +104,7 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     if (to.path === '/login' || to.path === '/reg') {
+      localStorage.clear
       next()
     } else {
       Message.info('请先登录')
