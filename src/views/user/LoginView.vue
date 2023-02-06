@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       userinfo: {
-        username: "LeoXing",
+        username: "Mnight",
         password: "xzq211",
       },
       rules: {
@@ -109,7 +109,7 @@ export default {
 
               setTimeout(() => {
                 this.changeLoad();
-                this.$router.replace("/");
+                location.href="/"
               }, 1000);
             } else {
               this.$message.error(responseBody.message);

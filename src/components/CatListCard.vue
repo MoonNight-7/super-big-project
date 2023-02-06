@@ -6,10 +6,10 @@
         style="margin: 10px 0"
         :key="index"
       >
-        <el-card body-style="height:250px" id="cat_description_box" shadow="hover" @click.native="show(item.nickname)">
+        <el-card body-style="height:250px" id="cat_description_box" shadow="hover" @click.native="show(item)">
           <el-image
             fit="cover"
-            :src="item.pictures"
+            :src="$host + item.pictures"
             style="width: 317.4px; height: 200px"
           />
           <span class="cat_price">￥{{ item.price }}</span>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import api from '@/api';
 export default {
   data(){
     return{
@@ -36,8 +37,8 @@ export default {
     }
   },
   methods:{
-    show(t){
-      console.log(t);
+    show(cat){
+      this.$message.success(cat.id)
     }
   }
 }

@@ -1,5 +1,7 @@
 import axios from "axios"
 import qs from "qs"
+import { Message } from 'element-ui';
+import router from "@/router";
 
 const errorHandle = (status, info) => {
     switch (status) {
@@ -29,7 +31,10 @@ const errorHandle = (status, info) => {
 
 // 创建axios的实例对象
 const instance = axios.create({
-    timeout: 5000
+    timeout: 5000,
+    headers: {
+        Authorization: localStorage.getItem("jwt")
+    }
 })
 
 // 处理并发请求方法
@@ -43,7 +48,6 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 instance.interceptors.request.use(
     config => {
         if (config.method === 'post') {
-            console.log('拦住了！！！');
             config.data = qs.stringify(config.data);
         }
         return config
@@ -52,13 +56,29 @@ instance.interceptors.request.use(
 )
 
 instance.interceptors.response.use(
-    response => response.data.state === 200 ? Promise.resolve(response) : Promise.reject(response),
+    // response => response.data.state === 200 ? Promise.resolve(response) : Promise.reject(response),
+    response => {
+        if (response.data.state === 200) {
+            return Promise.resolve(response)
+        }else if(response.data.state >= 600){
+            Message.error("登录信息已过期")
+            localStorage.clear()
+            location.href = "/login"
+            return Promise.reject(response)
+        }else{
+            console.log("捕获到异常");
+            return Promise.reject(response)
+        }
+    },
     error => {
         const { response } = error;
+
         if (response) {
             /**
              * 错误信息以状态码为主
              */
+            console.log("出错了")
+
             errorHandle(response.data.state, response.data);
             return Promise.reject(response);
         } else {
@@ -74,14 +94,13 @@ instance.interceptors.response.use(
 export function get(url, params) {
     return new Promise((resolve, reject) => {
         instance
-            .create({
-                headers: {
-                    Authorization: localStorage.getItem("jwt")
-                }
-            }).get(url, params
-            ).then(res => {
+            .get(url, params
+            )
+            .then(res => {
                 resolve(res.data);
-            }).catch(err => {
+            })
+            .catch(err => {
+                console.log(err);
                 reject(err.data);
             })
     })
@@ -89,15 +108,15 @@ export function get(url, params) {
 
 export function post(url, params) {
     return new Promise((resolve, reject) => {
-        instance.create({
-            headers: {
-                Authorization: localStorage.getItem("jwt")
-            }
-        }).post(url, params).then(res => {
-            resolve(res.data)
-        }).catch(err => {
-            reject(err.data)
-        })
+        instance
+            .post(url, params)
+            .then(res => {
+                resolve(res.data)
+            })
+            .catch(err => {
+                // console.log(err);
+                reject(err.data)
+            })
     })
 }
 

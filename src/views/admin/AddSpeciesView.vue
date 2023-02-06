@@ -76,14 +76,15 @@ export default {
     },
     submitForm(formName) {
       console.log(this.catForm);
-      this.$api.speciesAddNew(this.catForm).then((res) => {
-        if (res.state == 200) {
+      this.$api
+        .speciesAddNew(this.catForm)
+        .then((res) => {
           this.$message.success("发布成功");
           router.go(0);
-        } else {
-          this.$message.error(res.message);
-        }
-      });
+        })
+        .catch((err) => {
+          this.$message.error(err.message);
+        });
     },
   },
   mounted() {

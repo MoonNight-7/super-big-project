@@ -56,7 +56,6 @@
               placeholder="单位/年"
             ></el-input-number>
           </el-form-item>
-          <!-- TODO: 此处出租/出售应修改 -->
           <el-form-item
             :label="catPostForm.isRent == 1 ? '出租价格(月租)' : '出售价格'"
             :prop="catPostForm.isRent == 1 ? 'rentPrice' : 'salePrice'"
@@ -84,7 +83,6 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="上传图片" required>
-            <!-- TODO: 上传图片功能尚未实现 ，支持的格式有webp、jpg、jpeg、jfif-->
             <el-upload
               :action="this.$host + '/upload'"
               :headers="heads"
@@ -94,11 +92,16 @@
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :on-preview="handlePictureCardPreview"
+              :on-exceed="handleExceed"
+              :before-upload="beforePicUpload"
             >
               <i slot="default" class="el-icon-plus"></i>
+              <div slot="tip" class="el-upload__tip">
+                只能上传jpg/jpeg/jfif/webp/png文件，且不超过5MB
+              </div>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
-              <img src="http://192.168.3.21:18080/avatar/avator1.webp" style="width:100%;height:100%" />
+              <img :src="dialogImageUrl" style="width: 100%; height: 100%" />
             </el-dialog>
           </el-form-item>
           <el-form-item>
@@ -112,19 +115,18 @@
 </template>
 
 <script>
-import api from '@/api';
+import api from "@/api";
 export default {
   name: "postCat2",
   data() {
     return {
-      catPostForm: {
-      },
+      catPostForm: {},
       catSpeciesArr: [],
       descriptionInfo: "",
       heads: { Authorization: "" },
       imageUrl: "",
       dialogVisible: false,
-      dialogImageUrl:'',
+      dialogImageUrl: "",
       limit: 1,
 
       rules: {
@@ -171,36 +173,60 @@ export default {
       this.catPostForm.pictures = res.data;
       console.log("上传成功");
     },
-    handlePictureCardPreview() {
-      this.dialogVisible = true
+    handlePictureCardPreview(file) {
+      this.dialogVisible = true;
+      this.dialogImageUrl = file.url;
     },
-    handleRemove() {//删除图片
+    handleRemove() {
+      //删除图片
       console.log("执行了删除函数");
-      this.$api.deleteImg(this.catPostForm.pictures).then((res)=>{
+      this.$api.deleteImg(this.catPostForm.pictures).then((res) => {
         console.log(res);
-      })
+      });
     },
-    submitForm() {//提交表单
-    console.log(this.catPostForm);
+    handleExceed() {
+      this.$message.error("只能上传" + this.limit + "张图片！");
+    },
+    beforePicUpload(file) {
+      // 使用some遍历数组，回调函数返回true即停止遍历
+      let formatArr = ["image/jpeg", "image/png", "image/webp"];
+      let some = formatArr.some((element) => {
+        return file.type === element;
+      });
+      if (!some) {
+        this.$message.error("仅支持webp、jpg、jpeg、jfif格式");
+        return some;
+      }
+      let isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message.error("上传图片大小不能超过5MB");
+        return isLt5M;
+      }
+    },
+    submitForm() {
+      //提交表单
+      console.log(this.catPostForm);
       this.$refs.catPostForm.validate((valid) => {
         if (valid) {
           console.log("校验通过");
-          api.catAddNew(this.catPostForm).then((res)=>{
+          api.catAddNew(this.catPostForm).then((res) => {
             if (res.state == 200) {
-              this.$message.success('发布成功')
-              return
-            }else{
-              this.$message.error(res.message)
+              this.$message.success("发布成功");
+              //TODO: 发布成功后跳转到【我的发布】页面
+              return;
+            } else {
+              this.$message.error(res.message);
             }
-          })
-        // } else {
+          });
+          } else {
           return false;
         }
       });
     },
-    resetForm(){//重置表单
-      this.$refs.catPostForm.resetFields()
-    }
+    resetForm() {
+      //重置表单
+      this.$refs.catPostForm.resetFields();
+    },
   },
   mounted() {
     // 【初始化】localStorage中的catPostForm
@@ -215,8 +241,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-img.el-upload-list__item-thumbnail {
+<style>
+.el-upload-list__item-thumbnail {
   /* 图片在方框内显示长边 */
   object-fit: cover;
 }

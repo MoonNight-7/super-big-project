@@ -27,8 +27,9 @@
         <el-menu-item index="/buyCat">买 猫</el-menu-item>
         <el-menu-item index="/postCat">我要发布</el-menu-item>
         <el-menu-item index="/myCat">我发布的猫</el-menu-item>
-        <!-- <el-button @click="routerTest">测试路由</el-button>
-        <el-button @click="initUserDetail">初始化测试</el-button> -->
+        <el-button @click="routerTest">测试路由</el-button>
+        <el-button @click="initUserDetail">初始化测试</el-button>
+        <el-button @click="axiosTest">axios测试</el-button>
       </el-menu>
       <!-- 弹出对话框表单【开始】 -->
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
@@ -92,6 +93,8 @@
 <script>
 import router from "@/router";
 import store from "@/store";
+import axios from "axios";
+import api from "@/api";
 export default {
   data() {
     return {
@@ -106,6 +109,11 @@ export default {
   },
   methods: {
     // ctrl-17  k-75
+    axiosTest() {
+      api.avatarsList().then((res) => {
+        console.log(res);
+      });
+    },
     routerTest() {
       // console.log(router.currentRoute.query);
       if (router.currentRoute.path) {
@@ -115,19 +123,20 @@ export default {
     },
     updateUserDetail() {
       console.log(this.userDetail);
-      this.$api.userUpdate(this.userDetail).then((res) => {
-        console.log(res);
-        if (res.state != 200) {
-          this.$message.error(res.message);
-          return;
-        }
-        this.$message.success("修改成功");
-        this.userDetail.url = this.avatarUpdate.url;
-        let userString = JSON.stringify(this.userDetail);
-        localStorage.setItem("userDetailVO", userString);
-        router.go(0);
-        // this.dialogFormVisible = false
-      });
+      this.$api
+        .userUpdate(this.userDetail)
+        .then((res) => {
+          console.log(res);
+          this.$message.success("修改成功");
+          //TODO:此处有BUG
+          // this.userDetail.url = this.avatarUpdate.url;
+          let userString = JSON.stringify(this.userDetail);
+          localStorage.setItem("userDetailVO", userString);
+          router.go(0);
+        })
+        .catch((err) => {
+          this.$message.error(err.message);
+        });
     },
     logout() {
       localStorage.clear();
@@ -149,11 +158,19 @@ export default {
     getAvatars() {
       this.$api.avatarsList().then((res) => {
         this.avatarArr = res.data;
+        this.avatarArr.forEach((item) => {
+          if (item.url == this.userDetail.url) {
+            this.userDetail.avatarId = item.id
+          }
+        });
         console.log(res);
       });
     },
     nextAvatar(id) {
+      //TODO: 此处有BUG 修改头像即使不确认 也会修改主页头像000000
       this.avatarUpdate = this.avatarArr[id - 1];
+          this.userDetail.url = this.avatarUpdate.url;
+
     },
   },
   watch: {

@@ -62,7 +62,43 @@ const api = {
      */
     catAddNew(obj){
         return post('/api/cats/add-new',obj)
-    }
+    },
+    /**
+     * 获取用户发布的猫猫列表
+     * @param {number} userId 用户ID
+     * @returns 猫猫列表
+     */
+    catNotSaleList(userId){
+        return get('/api/cats/'+userId+'/not-sale-list')
+    },
+
+    catSoldList(userId){
+        return get('/api/cats/'+userId+'/sold-list')
+    },
+    /**
+     * 获取除了该用户发布的出租列表
+     * @param {number} userId 
+     * @returns 猫猫列表
+     */
+    catRentList(userId){ 
+        return get('/api/cats/'+userId+'/rent-list')
+    },
+    /**
+     * 获取除了该用户发布的出售列表
+     * @param {number} userId 
+     * @returns 猫猫列表
+     */
+    catSaleList(userId){
+        return get('/api/cats/'+userId+'/sale-list')
+    },
+    /**
+     * 根据猫猫ID删除数据
+     * @param {number} id 
+     * @returns 
+     */
+    catDelete(id){
+        return get('/cats/'+id+'/delete')
+    },
     
 
 }
