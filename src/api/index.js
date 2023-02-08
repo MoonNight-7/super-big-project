@@ -77,7 +77,7 @@ const api = {
     },
     /**
      * 获取除了该用户发布的出租列表
-     * @param {number} userId 
+     * @param {number} userId 用户ID
      * @returns 猫猫列表
      */
     catRentList(userId){ 
@@ -85,20 +85,44 @@ const api = {
     },
     /**
      * 获取除了该用户发布的出售列表
-     * @param {number} userId 
+     * @param {number} userId 用户ID
      * @returns 猫猫列表
      */
     catSaleList(userId){
         return get('/api/cats/'+userId+'/sale-list')
     },
     /**
+     * 根据ID获取猫猫详情
+     * @param {number} id 猫猫ID
+     * @returns 猫猫详情
+     */
+    catDetail(id){
+        return get('/api/cats/'+id+'/detail')
+    },
+    /**
+     * 根据ID购买猫猫
+     * @param {Object} obj 用户ID与猫猫ID
+     * @returns 
+     */
+    catBuy(obj){
+        return get('/api/cats/buy-cat',obj)
+    },
+    /**
      * 根据猫猫ID删除数据
-     * @param {number} id 
+     * @param {number} id 猫猫ID
      * @returns 
      */
     catDelete(id){
-        return get('/cats/'+id+'/delete')
+        return get('/api/cats/'+id+'/delete')
     },
+    /**
+     * 修改猫猫信息
+     * @param {Object} obj 猫猫对象
+     * @returns 
+     */
+    catUpdate(obj){
+        return post('/api/cats/update',obj)
+    }
     
 
 }

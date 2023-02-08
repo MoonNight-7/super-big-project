@@ -27,9 +27,9 @@
         <el-menu-item index="/buyCat">买 猫</el-menu-item>
         <el-menu-item index="/postCat">我要发布</el-menu-item>
         <el-menu-item index="/myCat">我发布的猫</el-menu-item>
-        <el-button @click="routerTest">测试路由</el-button>
+        <!-- <el-button @click="routerTest">测试路由</el-button>
         <el-button @click="initUserDetail">初始化测试</el-button>
-        <el-button @click="axiosTest">axios测试</el-button>
+        <el-button @click="axiosTest">axios测试</el-button> -->
       </el-menu>
       <!-- 弹出对话框表单【开始】 -->
       <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
@@ -83,9 +83,10 @@
         </div>
       </el-dialog>
       <!-- 弹出对话框表单【结束】 -->
-      <keep-alive exclude="postCat1,postCat2">
+      <keep-alive include="buyCat,rentCat,myCat">
         <router-view />
       </keep-alive>
+      <copyright />
     </el-main>
   </el-container>
 </template>
@@ -95,7 +96,9 @@ import router from "@/router";
 import store from "@/store";
 import axios from "axios";
 import api from "@/api";
+import Copyright from "@/components/Copyright.vue";
 export default {
+  components: { Copyright },
   data() {
     return {
       activeMenuItemPath: this.$router.currentRoute.path,
@@ -147,7 +150,7 @@ export default {
       let user = JSON.parse(userString);
       this.userDetail = user;
       this.userDetail.gender = user.gender.toString();
-      console.log(this.userDetail);
+      // console.log(this.userDetail);
       this.$notify({
         title: "登录成功",
         message: "欢迎您！" + this.userDetail.nickname,
@@ -160,17 +163,16 @@ export default {
         this.avatarArr = res.data;
         this.avatarArr.forEach((item) => {
           if (item.url == this.userDetail.url) {
-            this.userDetail.avatarId = item.id
+            this.userDetail.avatarId = item.id;
           }
         });
-        console.log(res);
+        // console.log(res);
       });
     },
     nextAvatar(id) {
       //TODO: 此处有BUG 修改头像即使不确认 也会修改主页头像000000
       this.avatarUpdate = this.avatarArr[id - 1];
-          this.userDetail.url = this.avatarUpdate.url;
-
+      this.userDetail.url = this.avatarUpdate.url;
     },
   },
   watch: {
@@ -207,7 +209,7 @@ export default {
     // console.log(path);
     this.initUserDetail();
     this.getAvatars();
-    console.log("mounted函数执行了！！");
+    // console.log("mounted函数执行了！！");
   },
   created() {},
 };

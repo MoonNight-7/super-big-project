@@ -82,7 +82,7 @@ export default {
   margin: 0 auto;
 }
 #admin_system {
-  width: 100px;
+  width: 200px;
   height: 300px;
   // background-color: #000;
   position: absolute;

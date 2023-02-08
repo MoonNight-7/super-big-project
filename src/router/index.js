@@ -41,6 +41,11 @@ const routes = [
         path:'/myCat',
         component: () => import('@/views/product/MyCatView.vue'),
         meta:{title:'我的发布'}
+      },
+      {
+        path:'/catDetail',
+        component:()=>import('@/views/product/CatDetailView.vue'),
+        meta:{title:'猫猫详情'}
       }
     ]
   },

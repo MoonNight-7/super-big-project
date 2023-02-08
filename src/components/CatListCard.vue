@@ -22,6 +22,7 @@
 
 <script>
 import api from '@/api';
+import router from '@/router';
 export default {
   data(){
     return{
@@ -38,7 +39,12 @@ export default {
   },
   methods:{
     show(cat){
-      this.$message.success(cat.id)
+      router.push({
+        path:'/catDetail',
+        query:{
+          id:cat.id
+        }
+      })
     }
   }
 }

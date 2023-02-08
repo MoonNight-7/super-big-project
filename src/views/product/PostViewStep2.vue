@@ -78,6 +78,8 @@
           <el-form-item label="简介" prop="description">
             <el-input
               v-model="catPostForm.description"
+              maxlength="200"
+              show-word-limit
               type="textarea"
               :placeholder="'介绍一下你的宝宝' + descriptionInfo"
             ></el-input>
@@ -87,6 +89,7 @@
               :action="this.$host + '/upload'"
               :headers="heads"
               name="pic"
+              ref="upload"
               list-type="picture-card"
               :limit="limit"
               :on-success="handleSuccess"
@@ -94,6 +97,7 @@
               :on-preview="handlePictureCardPreview"
               :on-exceed="handleExceed"
               :before-upload="beforePicUpload"
+              :auto-upload="false"
             >
               <i slot="default" class="el-icon-plus"></i>
               <div slot="tip" class="el-upload__tip">
@@ -146,7 +150,10 @@ export default {
         ],
         salePrice: [{ required: true, message: "请输入价格" }],
         rentPrice: [{ required: true, message: "请输入价格" }],
-        description: [{ required: true, message: "请简单描述你的爱猫" }],
+        description: [
+          { required: true, message: "请简单描述你的爱猫" },
+          { min: 0, max: 200, message: "字数在200字之内" },
+        ],
       },
     };
   },
@@ -209,6 +216,7 @@ export default {
       this.$refs.catPostForm.validate((valid) => {
         if (valid) {
           console.log("校验通过");
+          this.$refs.upload.submit();
           api.catAddNew(this.catPostForm).then((res) => {
             if (res.state == 200) {
               this.$message.success("发布成功");
@@ -218,7 +226,7 @@ export default {
               this.$message.error(res.message);
             }
           });
-          } else {
+        } else {
           return false;
         }
       });

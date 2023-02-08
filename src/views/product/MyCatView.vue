@@ -7,7 +7,7 @@
           <!-- <el-table-column type="selection" /> -->
           <el-table-column
             label="猫猫编号"
-            prop="id"
+            prop="catId"
             width="60px"
             align="center"
           />
@@ -22,7 +22,7 @@
           </el-table-column>
           <el-table-column
             label="昵称"
-            prop="nickname"
+            prop="catNickname"
             align="center"
             width="100px"
           />
@@ -38,7 +38,15 @@
             align="center"
             width="100px"
           />
-
+          <el-table-column
+            label="买家昵称"
+            prop="userNickname"
+            align="center"
+            width="100px"
+          />
+          <el-table-column label="订单问题" align="center">
+            <el-button type="text" @click="handleComplaint">投诉</el-button>
+          </el-table-column>
         </el-table>
       </el-col>
       <el-col :span="12">
@@ -70,20 +78,21 @@
             label="出租价格(元)"
             prop="rentPrice"
             align="center"
-            width="100px"
+            width="120px"
           />
           <el-table-column
             label="出售价格(元)"
             prop="salePrice"
             align="center"
-            width="100px"
+            width="120px"
           />
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button
                 icon="el-icon-edit"
-                @click="handleClick(scope.row)"
+                @click="EditCat(scope.row)"
                 size="big"
+                :loading="loading"
                 >编辑</el-button
               >
               <el-button
@@ -97,18 +106,31 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-dialog
+      :title="catDetail.catNickname + '🍗'"
+      :visible.sync="dialogFormVisible"
+    >
+      <!-- TODO: 树状图更新猫猫信息 -->
+      <update-form :catUpdateForm="catUpdateForm" :isRent="catDetail.isRent" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import api from "@/api";
+import UpdateForm from "@/components/UpdateForm.vue";
 export default {
+  components: { UpdateForm },
   name: "myCat",
   data() {
     return {
       userId: 2,
       catNotSaleListArr: [],
       catIsSoldListArr: [],
+      dialogFormVisible: false,
+      loading: false,
+      catDetail: {},
+      catUpdateForm: {},
     };
   },
   methods: {
@@ -135,11 +157,17 @@ export default {
           console.log(err);
         });
     },
-    handleClick(cat) {
-      console.log(cat);
+    EditCat(cat) {
+      this.loading = true;
+      api.catDetail(cat.id).then((res) => {
+        this.catDetail = res.data;
+        this.catUpdateForm.id = this.catDetail.id;
+        this.dialogFormVisible = true;
+        this.loading = false;
+      });
     },
     handleDelete(id) {
-      this.$message.success(id)
+      this.$message.success(id);
     },
     openDeleteConfirm(cat) {
       this.$confirm(
@@ -156,11 +184,14 @@ export default {
         })
         .catch(() => {});
     },
+    handleComplaint() {
+      this.$message.error("投诉请拨打226447转7");
+    },
   },
   mounted() {
     // 初始化猫猫列表
     this.initNotSoldList();
-    this.initIsSoldList()
+    this.initIsSoldList();
   },
 };
 </script>

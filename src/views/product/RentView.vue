@@ -10,6 +10,7 @@ import Banner from "@/components/Banner.vue";
 import List from "@/components/CatListCard.vue";
 import api from "@/api";
 export default {
+  name:"rentCat",
   components: { Banner, List },
   data() {
     return {
