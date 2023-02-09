@@ -24,18 +24,24 @@
 </template>
 
 <script>
-import api from '@/api';
+import api from "@/api";
+import router from "@/router";
 export default {
   props: {
-    catUpdateForm:Object,
-    isRent:Number
+    catUpdateForm: Object,
+    isRent: Number,
   },
-  methods:{
-    submitUpdate(){
-      api.catUpdate(this.catUpdateForm).then((res)=>{
-      }).catch(err=>this.$message.error(err.message))
-    }
-  }
+  methods: {
+    submitUpdate() {
+      api
+        .catUpdate(this.catUpdateForm)
+        .then((res) => {
+          this.$message.success('修改成功')
+          location.reload();
+        })
+        .catch((err) => this.$message.error(err.message));
+    },
+  },
 };
 </script>
 

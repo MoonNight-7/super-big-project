@@ -14,7 +14,7 @@ export default {};
 
 <style lang="less" scoped>
 .copyright_box{
-  // height: 100px;
+  margin-top: 80px;
   background-color: #6b7785;
   text-align: center;
   .description{
